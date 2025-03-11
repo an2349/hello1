@@ -23,12 +23,18 @@
     </style>
 </head>
 <body>
-    <audio autoplay loop>
+    <audio id = "myAudio" loop>
         <source src="mp2.mp3" type="audio/mpeg">
       </audio>
     <div class="animation" id="animatedCursor"></div>
 
     <script>
+let audio = document.getElementById("myAudio");
+function startMusic() {
+    if (audio.paused) {
+        audio.play().catch(error => console.log("Trình duyệt chặn phát nhạc:", error));  }
+    document.removeEventListener("click", startMusic);   }
+document.addEventListener("click", startMusic);
        const animations = {
     fly: ["img/movve/fly/fly_1.png", "img/movve/fly/fly_2.png"],
     prepare: [
