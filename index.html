@@ -1,281 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
+<head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><3</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="style.css">
+    <title>An</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-image:url("img/a.gif");
+            background-size: cover;
+             background-repeat: no-repeat;
 
-  </head>
+        }
+        .animation {
+            position: absolute;
+            width: 52px;
+            height: 77px;
+            background-size: cover;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="mp2.mp3" type="audio/mpeg">
+      </audio>
+    <div class="animation" id="animatedCursor"></div>
 
-  <body>
-    <section id="tranding">
-      <div class="container">
-        <h3 class="text-center section-subheading">=======</h3>
-        <a href = "index1.html"><h1 class="text-center section-heading">Cái khác</h1></a>
-      </div>
-      <div class="container">
-        <div class="swiper tranding-slider">
-          <div class="swiper-wrapper">
-            <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-              <div class="tranding-slide-img">
-                <img src="img/1.jpeg" alt="Tranding">
-              </div>
-              <div class="tranding-slide-content">
-                <h1 class="date"></h1>
-                <div class="tranding-slide-content-bottom">
-                  <h2 class="name">
-                    
-                  </h2>
-                  <h3 class="rating">
-                    <span></span>
-                    <div class="rating">
-                      
-                    </div>
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <!-- Slide-end -->
-            <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-              <div class="tranding-slide-img">
-                <img src="img/2.jpeg" alt="Tranding">
-              </div>
-              <div class="tranding-slide-content">
-                <h1 class="date"></h1>
-                <div class="tranding-slide-content-bottom">
-                  <h2 class="name">
-                    
-                  </h2>
-                  <h3 class="rating">
-                    <span></span>
-                    <div class="rating">
-                      
-                    </div>
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <!-- Slide-end -->
-            <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-              <div class="tranding-slide-img">
-                <img src="img/3.jpeg" alt="Tranding">
-              </div>
-              <div class="tranding-slide-content">
-                <h1 class="date"></h1>
-                <div class="tranding-slide-content-bottom">
-                  <h2 class="name">
-                    
-                  </h2>
-                  <h3 class="rating">
-                    <span></span>
-                    <div class="rating">
-                      
-                    </div>
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <!-- Slide-end -->
-            <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-              <div class="tranding-slide-img">
-                <img src="img/4.jpeg" alt="Tranding">
-              </div>
-              <div class="tranding-slide-content">
-                <h1 class="date"></h1>
-                <div class="tranding-slide-content-bottom">
-                  <h2 class="name">
-                    
-                  </h2>
-                  <h3 class="rating">
-                    <span></span>
-                    <div class="rating">
-                      
-                    </div>
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <!-- Slide-end -->
-            <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-              <div class="tranding-slide-img">
-                <img src="img/5.jpeg" alt="Tranding">
-              </div>
-              <div class="tranding-slide-content">
-                <h1 class="date"></h1>
-                <div class="tranding-slide-content-bottom">
-                  <h2 class="name">
-                    
-                  </h2>
-                  <h3 class="rating">
-                    <span></span>
-                    <div class="rating">
-                      
-                    </div>
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <!-- Slide-end -->
-            <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-              <div class="tranding-slide-img">
-                <img src="img/6.jpeg" alt="Tranding">
-              </div>
-              <div class="tranding-slide-content">
-                <h1 class="date"></h1>
-                <div class="tranding-slide-content-bottom">
-                  <h2 class="name">
-                    
-                  </h2>
-                  <h3 class="rating">
-                    <span></span>
-                    <div class="rating">
-                      
-                    </div>
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <!-- Slide-end -->
-            <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-              <div class="tranding-slide-img">
-                <img src="img/66.jpeg" alt="Tranding">
-              </div>
-              <div class="tranding-slide-content">
-                <h1 class="date"></h1>
-                <div class="tranding-slide-content-bottom">
-                  <h2 class="name">
-                    
-                  </h2>
-                  <h3 class="rating">
-                    <span></span>
-                    <div class="rating">
-                      
-                    </div>
-                  </h3>
-                </div>
-              </div>
-            </div>
+    <script>
+       const animations = {
+    fly: ["img/movve/fly/fly_1.png", "img/movve/fly/fly_2.png"],
+    prepare: [
+        "img/movve/start/start_1.png", "img/movve/start/start_2.png",
+        "img/movve/start/start_3.png", "img/movve/start/start_4.png",
+        "img/movve/start/start_5.png", "img/movve/start/start_6.png"
+    ],
+    end: [
+        "img/movve/end/end_1.png", "img/movve/end/end_2.png",
+        "img/movve/end/end_3.png", "img/movve/end/end_4.png",
+        "img/movve/end/end_5.png"
+    ],
+    stand: [
+        "img/stand/st/stand_1.png", "img/stand/st/stand_2.png",
+        "img/stand/st/stand_3.png", "img/stand/st/stand_4.png",
+        "img/stand/st/stand_5.png", "img/stand/st/stand_6.png"
+    ],
+    charge_start: [
+        "img/stand/charge/start_1.png", "img/stand/charge/start_2.png",
+    ],
+    charge_main: [
+        "img/stand/charge/main/charge_3.png", "img/stand/charge/main/charge_4.png",
+        "img/stand/charge/main/charge_5.png", "img/stand/charge/main/charge_6.png",
+        "img/stand/charge/main/charge_6.png","img/stand/charge/main/charge_7.png","img/stand/charge/main/charge_8.png","img/stand/charge/main/charge_9.png"
+    ],
+    charge_end: [
+        "img/stand/charge/end/end_1.png","img/stand/charge/end/end_2.png"
+    ]
+};
 
-            <!-- Slide-end -->
-             <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-                <div class="tranding-slide-img">
-                  <img src="img/d.jpeg" alt="Tranding">
-                </div>
-                <div class="tranding-slide-content">
-                  <h1 class="date"></h1>
-                  <div class="tranding-slide-content-bottom">
-                    <h2 class="name">
-                      
-                    </h2>
-                    <h3 class="rating">
-                      <span></span>
-                      <div class="rating">
+
+    let currentAnimation = "fly";
+    let frameIndex = 0;
+    const cursor = document.getElementById("animatedCursor");
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let moveTimeout;
+    let isEnding = false;
+    let floatingOffset = 0;
+    let floatingDirection = 1;
+    let lastDirection = 1;
+    let standTimeout;
+
+    function updateFrame() {
+        if (animations[currentAnimation]) {
+            cursor.style.backgroundImage = `url(${animations[currentAnimation][frameIndex]})`;
+            frameIndex = (frameIndex + 1) % animations[currentAnimation].length;
+        }
+
+        if (currentAnimation === "stand") {
+            floatingOffset += floatingDirection * 0.5;
+            if (floatingOffset > 5 || floatingOffset < -5) floatingDirection *= -1;
+            cursor.style.transform = `translateY(${floatingOffset}px) scaleX(${lastDirection})`;
+        }
+    }
+    setInterval(updateFrame, 140);
+
+    function startStandTimeout() {
+        clearTimeout(standTimeout);
+        standTimeout = setTimeout(() => {
+            if (currentAnimation === "stand") {
+                currentAnimation = "charge_start";
+                frameIndex = 0;
+
+                setTimeout(() => {
+                    currentAnimation = "charge_main";
+                    frameIndex = 0;
+
+                    let chargeDuration = 5000 + Math.random() * 15000; // Ngẫu nhiên 5s - 20s
+                    setTimeout(() => {
+                        currentAnimation = "charge_end";
+                        frameIndex = 0;
                         
-                      </div>
-                    </h3>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- Slide-end -->
-  <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-                <div class="tranding-slide-img">
-                  <img src="img/sunset.jpeg" alt="Tranding">
-                </div>
-                <div class="tranding-slide-content">
-                  <h1 class="date"></h1>
-                  <div class="tranding-slide-content-bottom">
-                    <h2 class="name">
-                      
-                    </h2>
-                    <h3 class="rating">
-                      <span></span>
-                      <div class="rating">
-                        
-                      </div>
-                    </h3>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- Slide-end -->
-  <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-                <div class="tranding-slide-img">
-                  <img src="img/unknown_time.jpeg" alt="Tranding">
-                </div>
-                <div class="tranding-slide-content">
-                  <h1 class="date"></h1>
-                  <div class="tranding-slide-content-bottom">
-                    <h2 class="name">
-                      
-                    </h2>
-                    <h3 class="rating">
-                      <span></span>
-                      <div class="rating">
-                        
-                      </div>
-                    </h3>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- Slide-end -->
- <!-- Slide-start -->
-            <div class="swiper-slide tranding-slide">
-                <div class="tranding-slide-img">
-                  <img src="img/19_02.jpeg" alt="Tranding">
-                </div>
-                <div class="tranding-slide-content">
-                  <h1 class="date"></h1>
-                  <div class="tranding-slide-content-bottom">
-                    <h2 class="name">
-                      
-                    </h2>
-                    <h3 class="rating">
-                      <span></span>
-                      <div class="rating">
-                        
-                      </div>
-                    </h3>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- Slide-end -->
-          </div>
+                        setTimeout(() => {
+                            currentAnimation = "stand";
+                            frameIndex = 0;
+                            startStandTimeout();
+                        }, animations["charge_end"].length * 140);
 
-          <div class="tranding-slider-control">
-            <div class="swiper-button-prev slider-arrow">
-              <ion-icon name="arrow-back-outline"></ion-icon>
-            </div>
-            <div class="swiper-button-next slider-arrow">
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </div>
-            <div class="swiper-pagination"></div>
-          </div>
+                    }, chargeDuration);
 
-        </div>
-      </div>
-    </section>
+                }, animations["charge_start"].length * 140);
+            }
+        }, 4000 + Math.random() * 1000); // Ngẫu nhiên từ 4s đến 5s
+    }
 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-    <script src="script.js"></script>
-  </body>
+    function moveTowardsTarget() {
+        let x = parseFloat(cursor.style.left) || 0;
+        let y = parseFloat(cursor.style.top) || 0;
 
+        let speed = (currentAnimation === "end") ? 0.04 : 0.02;
+        let dx = (targetX - x) * speed;
+        let dy = (targetY - y) * speed;
+
+        if (dx < 0) {
+            cursor.style.transform = "scaleX(-1)";
+            lastDirection = -1;
+        } else if (dx > 0) {
+            cursor.style.transform = "scaleX(1)";
+            lastDirection = 1;
+        }
+
+        if (Math.abs(dx) < 0.4 && Math.abs(dy) < 0.4 && currentAnimation === "fly" && !isEnding) {
+            currentAnimation = "end";
+            frameIndex = 0;
+            isEnding = true;
+        }
+
+        if (currentAnimation === "end") {
+            cursor.style.left = `${x + dx}px`;
+            cursor.style.top = `${y + dy}px`;
+
+            if (Math.abs(dx) < 0.2 && Math.abs(dy) < 0.2) {
+                setTimeout(() => {
+                    currentAnimation = "stand";
+                    frameIndex = 0;
+                    startStandTimeout();
+                }, animations["end"].length * 140);
+            } else {
+                requestAnimationFrame(moveTowardsTarget);
+            }
+        } else if (Math.abs(dx) > 0.2 || Math.abs(dy) > 0.2) {
+            cursor.style.left = `${x + dx}px`;
+            cursor.style.top = `${y + dy}px`;
+            requestAnimationFrame(moveTowardsTarget);
+        }
+    }
+
+    moveTowardsTarget();
+
+    function moveAnimation(x, y) {
+        clearTimeout(moveTimeout);
+        isEnding = false;
+
+        if (currentAnimation === "fly") {
+            targetX = x - 25;
+            targetY = y - 37;
+            return;
+        }
+
+        currentAnimation = "prepare";
+        frameIndex = 0;
+
+        if (x < targetX) {
+            lastDirection = -1;
+        } else {
+            lastDirection = 1;
+        }
+
+        moveTimeout = setTimeout(() => {
+            currentAnimation = "fly";
+            targetX = x - 25;
+            targetY = y - 37;
+            moveTowardsTarget();
+        }, 850);
+    }
+
+    document.addEventListener("mousemove", (e) => {
+        if (!('ontouchstart' in window)) {
+            moveAnimation(e.clientX, e.clientY);
+        }
+    });
+
+    document.addEventListener("touchstart", (e) => {
+        let x = e.touches[0].clientX;
+        let y = e.touches[0].clientY;
+        moveAnimation(x, y);
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "1") currentAnimation = "fly";
+        if (e.key === "2") currentAnimation = "run";
+        if (e.key === "3") currentAnimation = "jump";
+        frameIndex = 0;
+    });
+    </script>
+</body>
 </html>
+
