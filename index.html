@@ -125,9 +125,9 @@ document.addEventListener("click", startMusic);
         let x = parseFloat(cursor.style.left) || 0;
         let y = parseFloat(cursor.style.top) || 0;
 
-        let speed = (currentAnimation === "end") ? 0.04 : 0.02;
-        let dx = (targetX - x) * speed;
-        let dy = (targetY - y) * speed;
+        let speed = (currentAnimation === "end") ? 0.04 : 0.023;
+        let dx =  (targetX - x) * speed;
+        let dy =  (targetY - y) * speed;
 
         if (dx < 0) {
             cursor.style.transform = "scaleX(-1)";
