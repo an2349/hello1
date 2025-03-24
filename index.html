@@ -124,17 +124,22 @@
         .note.zoomed {
             width: 400%;
             height: 2rem;
+            
             font-size: clamp(22px, 2vw, 14px);
             border-radius: 8px;
             transform: translate(-50%, -10rem);
             transition: all 1s ease;
             background: #fff0f5;
-            box-shadow: 0 0 12px 4px rgba(255, 105, 180, 0.7);
+            box-shadow: 0 0 12px 4px rgba(248, 112, 180, 0.7);
             animation: glow 1.5s ease-in-out infinite alternate;
         }
         @keyframes glow {
-            0% { box-shadow: 0 0 8px 4px rgba(255, 105, 180, 0.5); }
-            100% { box-shadow: 0 0 16px 8px rgba(255, 105, 180, 0.9); }
+            0% { box-shadow: 0 0 8px 4px rgba(255, 105, 180, 0.5);
+                color: #ad69ff; }
+            33% { box-shadow: 0 0 16px 8px rgba(255, 105, 180, 0.9); 
+                color: #1b3540 ;}
+            66% { box-shadow: 0 0 16px 8px rgba(175, 95, 245, 0.9); 
+                color: #4c4e1b ;}
         }
         .note.zoomed span {
             display: inline-block;
