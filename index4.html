@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-image:url("img/a.gif");
+            background-size: cover;
+             background-repeat: no-repeat;
+
+        }
+        .animation {
+            position: absolute;
+            width: 52px;
+            height: 77px;
+            background-size: cover;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <audio id = "myAudio" loop>
+        <source src="mp2.mp3" type="audio/mpeg">
+      </audio>
+    <div class="animation" id="animatedCursor"></div>
+
+    <script>
+let audio = document.getElementById("myAudio");
+function startMusic() {
+    if (audio.paused) {
+        audio.play().catch(error => console.log("Trình duyệt chặn phát nhạc:", error));  }
+    document.removeEventListener("click", startMusic);   }
+document.addEventListener("click", startMusic);
+       const animations = {
+    fly: ["img/movve/fly/fly_1.png", "img/movve/fly/fly_2.png"],
+    prepare: [
+        "img/movve/start/start_1.png", "img/movve/start/start_2.png",
+        "img/movve/start/start_3.png", "img/movve/start/start_4.png",
+        "img/movve/start/start_5.png", "img/movve/start/start_6.png"
+    ],
+    end: [
+        "img/movve/end/end_1.png", "img/movve/end/end_2.png",
+        "img/movve/end/end_3.png", "img/movve/end/end_4.png",
+        "img/movve/end/end_5.png"
+    ],
+    stand: [
+        "img/stand/st/stand_1.png", "img/stand/st/stand_2.png",
+        "img/stand/st/stand_3.png", "img/stand/st/stand_4.png",
+        "img/stand/st/stand_5.png", "img/stand/st/stand_6.png"
+    ],
+    charge_start: [
+        "img/stand/charge/start_1.png", "img/stand/charge/start_2.png" 
+    ],
+    charge_main: [
+        "img/stand/charge/main/charge_3.png", "img/stand/charge/main/charge_4.png",
+        "img/stand/charge/main/charge_5.png", 
+        "img/stand/charge/main/charge_6.png","img/stand/charge/main/charge_7.png","img/stand/charge/main/charge_8.png"
+    ],
+    charge_end: [
+       "img/stand/charge/end/end_0.png", "img/stand/charge/end/end_1.png","img/stand/charge/end/end_2.png"
+    ]
+};
+
+
+    let currentAnimation = "fly";
+    let frameIndex = 0;
+    const cursor = document.getElementById("animatedCursor");
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let moveTimeout;
+    let isEnding = false;
+    let floatingOffset = 0;
+    let floatingDirection = 1;
+    let lastDirection = 1;
+    let standTimeout;
+
+    function updateFrame() {
+        if (animations[currentAnimation]) {
+            cursor.style.backgroundImage = `url(${animations[currentAnimation][frameIndex]})`;
+            frameIndex = (frameIndex + 1) % animations[currentAnimation].length;
+        }
+
+        if (currentAnimation === "stand") {
+            floatingOffset += floatingDirection * 0.5;
+            if (floatingOffset > 5 || floatingOffset < -5) floatingDirection *= -1;
+            cursor.style.transform = `translateY(${floatingOffset}px) scaleX(${lastDirection})`;
+        }
+    }
+    setInterval(updateFrame, 140);
+
+    function startStandTimeout() {
+        clearTimeout(standTimeout);
+        standTimeout = setTimeout(() => {
+            if (currentAnimation === "stand") {
+                currentAnimation = "charge_start";
+                frameIndex = 0;
+
+                setTimeout(() => {
+                    currentAnimation = "charge_main";
+                    frameIndex = 0;
+
+                    let chargeDuration = 5000 + Math.random() * 15000; // Ngẫu nhiên 5s - 20s
+                    setTimeout(() => {
+                        currentAnimation = "charge_end";
+                        frameIndex = 0;
+                        
+                        setTimeout(() => {
+                            currentAnimation = "stand";
+                            frameIndex = 0;
+                            startStandTimeout();
+                        }, animations["charge_end"].length * 140);
+
+                    }, chargeDuration);
+
+                }, animations["charge_start"].length * 140);
+            }
+        }, 4000 + Math.random() * 1000); // Ngẫu nhiên từ 4s đến 5s
+    }
+
+    function moveTowardsTarget() {
+        let x = parseFloat(cursor.style.left) || 0;
+        let y = parseFloat(cursor.style.top) || 0;
+
+        let speed = (currentAnimation === "end") ? 0.04 : 0.023;
+        let dx =  (targetX - x) * speed;
+        let dy =  (targetY - y) * speed;
+
+        if (dx < 0) {
+            cursor.style.transform = "scaleX(-1)";
+            lastDirection = -1;
+        } else if (dx > 0) {
+            cursor.style.transform = "scaleX(1)";
+            lastDirection = 1;
+        }
+
+        if (Math.abs(dx) < 0.4 && Math.abs(dy) < 0.4 && currentAnimation === "fly" && !isEnding) {
+            currentAnimation = "end";
+            frameIndex = 0;
+            isEnding = true;
+        }
+
+        if (currentAnimation === "end") {
+            cursor.style.left = `${x + dx}px`;
+            cursor.style.top = `${y + dy}px`;
+
+            if (Math.abs(dx) < 0.2 && Math.abs(dy) < 0.2) {
+                setTimeout(() => {
+                    currentAnimation = "stand";
+                    frameIndex = 0;
+                    startStandTimeout();
+                }, animations["end"].length * 140);
+            } else {
+                requestAnimationFrame(moveTowardsTarget);
+            }
+        } else if (Math.abs(dx) > 0.2 || Math.abs(dy) > 0.2) {
+            cursor.style.left = `${x + dx}px`;
+            cursor.style.top = `${y + dy}px`;
+            requestAnimationFrame(moveTowardsTarget);
+        }
+    }
+
+    moveTowardsTarget();
+
+    function moveAnimation(x, y) {
+        clearTimeout(moveTimeout);
+        isEnding = false;
+
+        if (currentAnimation === "fly") {
+            targetX = x - 25;
+            targetY = y - 37;
+            return;
+        }
+
+        currentAnimation = "prepare";
+        frameIndex = 0;
+
+        if (x < targetX) {
+            lastDirection = -1;
+        } else {
+            lastDirection = 1;
+        }
+
+        moveTimeout = setTimeout(() => {
+            currentAnimation = "fly";
+            targetX = x - 25;
+            targetY = y - 37;
+            moveTowardsTarget();
+        }, 850);
+    }
+
+    document.addEventListener("mousemove", (e) => {
+        if (!('ontouchstart' in window)) {
+            moveAnimation(e.clientX, e.clientY);
+        }
+    });
+
+    document.addEventListener("touchstart", (e) => {
+        let x = e.touches[0].clientX;
+        let y = e.touches[0].clientY;
+        moveAnimation(x, y);
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "1") currentAnimation = "fly";
+        if (e.key === "2") currentAnimation = "run";
+        if (e.key === "3") currentAnimation = "jump";
+        frameIndex = 0;
+    });
+    </script>
+</body>
+</html>
+
