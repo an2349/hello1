@@ -383,27 +383,54 @@
 
         
         function updateLifeTime() {
-            let birthDate = new Date('2006-03-25T03:25:00Z'); 
-            let now = new Date();
-            let diff = now - birthDate;
-            
-            let seconds = Math.floor(diff / 1000);
-            let minutes = Math.floor(diff / (1000 * 60));
-            let hours = Math.floor(diff / (1000 * 60 * 60));
-            let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            let months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
-            let years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-            
-            document.getElementById('lifeTime').innerHTML = `
-                ${years} tuổi - 
-                ${months} tháng - 
-                ${days} ngày<br>
-                ${hours} giờ - 
-                ${minutes} phút<br>--
-                ${seconds} giây--
-            `;
-        }
-        setInterval(updateLifeTime, 1000); 
+    let birthDate = new Date('2006-03-25T03:25:00Z'); 
+    let now = new Date();
+    
+    // Tính tổng số mili-giây đã trôi qua
+    let diff = now - birthDate;
+    
+    // Tính giây, phút, giờ đã trôi qua
+    let seconds = Math.floor(diff / 1000);
+    let minutes = Math.floor(diff / (1000 * 60));
+    let hours = Math.floor(diff / (1000 * 60 * 60));
+    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    
+    // Tính năm, tháng, ngày chính xác hơn
+    let birthYear = birthDate.getFullYear();
+    let birthMonth = birthDate.getMonth();
+    let birthDay = birthDate.getDate();
+    
+    let nowYear = now.getFullYear();
+    let nowMonth = now.getMonth();
+    let nowDay = now.getDate();
+    
+    let years = nowYear - birthYear;
+    let months = nowMonth - birthMonth;
+    let daysDiff = nowDay - birthDay;
+
+    if (daysDiff < 0) {
+        months -= 1;
+        let previousMonth = new Date(nowYear, nowMonth, 0);
+        daysDiff += previousMonth.getDate();
+    }
+
+    if (months < 0) {
+        years -= 1;
+        months += 12;
+    }
+
+    document.getElementById('lifeTime').innerHTML = `
+        ${years} tuổi - 
+        ${months} tháng - 
+        ${daysDiff} ngày<br>
+        ${hours} giờ - 
+        ${minutes} phút<br>--
+        ${seconds} giây--
+    `;
+}
+
+// Gọi hàm mỗi giây để cập nhật liên tục
+setInterval(updateLifeTime, 1000);
         updateLifeTime();  
     </script>
 </body>
