@@ -1,437 +1,184 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sinh Nhật Vui Vẻ</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f3f3f3;
-            margin: 0;
-            overflow: hidden;
-            position: relative;
-            touch-action: none;
-            transition: background-color 1s ease;
-            font-size: 16px;
-        }
-        .container {
-            position: relative;
-            width: 80vw;
-            max-width: 250px;
-            height: 50vw;
-            max-height: 160px;
-            z-index: 10;
-        }
-        .envelope-container {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 60vw;
-            max-width: 180px;
-            height: 40vw;
-            max-height: 120px;
-            cursor: pointer;
-            animation: float 3s ease-in-out infinite;
-            z-index: 10;
-            touch-action: none;
-        }
-        @keyframes float {
-            0%, 100% { transform: translate(-50%, -50%) translateY(0) rotate(0deg); }
-            25% { transform: translate(-50%, -50%) translateY(-8px) rotate(-2deg); }
-            50% { transform: translate(-50%, -50%) translateY(0) rotate(2deg); }
-            75% { transform: translate(-50%, -50%) translateY(-4px) rotate(-1deg); }
-        }
-        .envelope {
-            width: 100%;
-            height: 100%;
-        }
-        .whole-envelope {
-            transition: opacity 0.1s;
-        }
-        .tear-piece {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 60vw;
-            max-width: 180px;
-            height: 40vw;
-            max-height: 120px;
-            opacity: 0;
-            transition: transform 1.5s ease-out;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 5;
-        }
-        .open .whole-envelope {
-            opacity: 0;
-        }
-        .open .tear-left {
-            opacity: 1;
-            transform: translate(-150px, calc(100vh + 150px)) rotate(-45deg);
-        }
-        .open .tear-right {
-            opacity: 1;
-            transform: translate(150px, calc(100vh + 150px)) rotate(45deg);
-        }
-        .hint {
-            position: absolute;
-            top: 0.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: Arial, sans-serif;
-            font-size: clamp(10px, 2vw, 12px);
-            color: #555;
-            z-index: 15;
-        }
-        .note {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 70px;
-            height: 60px;
-            background: #fff0f5;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Dancing Script', cursive;
-            font-size: 12px;
-            color: #ff69b4;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            z-index: 25;
-            pointer-events: none;
-            padding :4px;
-        }
-        .open .note {
-            opacity: 1;
-            pointer-events: auto;
-            animation: driftToCenter 1s ease-out forwards;
-        }
-        @keyframes driftToCenter {
-            0% { transform: translate(-50%, -50%) translateY(0); }
-            100% { transform: translate(-50%, -50%) translateY(-2.5rem); }
-        }
-        .note.zoomed {
-            width: 400%;
-            height: 2rem;
-            
-            font-size: clamp(22px, 2vw, 14px);
-            border-radius: 8px;
-            transform: translate(-50%, -10rem);
-            transition: all 1s ease;
-            background: #fff0f5;
-            box-shadow: 0 0 12px 4px rgba(248, 112, 180, 0.7);
-            animation: glow 1.5s ease-in-out infinite alternate;
-        }
-        @keyframes glow {
-            0% { box-shadow: 0 0 8px 4px rgba(255, 105, 180, 0.5);
-                color: #ad69ff; }
-            33% { box-shadow: 0 0 16px 8px rgba(255, 105, 180, 0.9); 
-                color: #1b3540 ;}
-            66% { box-shadow: 0 0 16px 8px rgba(175, 95, 245, 0.9); 
-                color: #4c4e1b ;}
-        }
-        .note.zoomed span {
-            display: inline-block;
-            animation: textGlow 1.5s ease-in-out infinite alternate;
-        }
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 4px rgba(255, 105, 180, 0.5); }
-            100% { text-shadow: 0 0 12px rgba(255, 105, 180, 1); }
-        }
-        .cake {
-            position: absolute;
-            bottom: -8rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: clamp(120px, 15vw, 120px);
-            height: clamp(120px, 15vw, 120px);
-            background: url('12.gif') no-repeat center/contain;
-            transition: bottom 1s ease-out, opacity 0.5s ease;
-            z-index: 15;
-            opacity: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ff69b4;
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(12px, 2vw, 16px);
-            text-align: center;margin-bottom:30px
-        }
-        .cake.visible {
-            bottom: 0.5rem;
-            opacity: 1;
-        }
-        .confetti {
-            position: absolute;
-            width: 0.5rem;
-            height: 0.5rem;
-            background: #ffd700;
-            animation: fall 3s ease-out forwards;
-            z-index: 5;
-        }
-        @keyframes fall {
-            0% { transform: translateY(100vh); opacity: 1; }
-            100% { transform: translateY(0) rotate(${Math.random() * 360}deg); opacity: 0; }
-        }
-        .life-time {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(19px, 2vw, 16px);
-            color: #b3e5fc; /* Màu trắng xanh nhẹ */
-            text-align: center;
-            z-index: 20;
-            opacity: 0; /* Ẩn mặc định */
-            transition: opacity 0.5s ease;
-        }
-        .life-time.visible {
-            opacity: 1; /* Hiển thị khi được kích hoạt */
-        }
-        .life-time span {
-            display: block;
-            line-height: 1.2; /* Giảm khoảng cách dòng để gọn hơn */
-        }
-        @media (max-width: 600px) {
-            .note.zoomed {
-                width: 100%;
-                height: 50px;
-                font-size: 18px;
-                border-radius: 10px;
-                transform: translate(-50%, -8rem);
-                transition: all 1s ease;
-            }
-            .cake.visible {
-                bottom: 0.2rem;
-            }
-            @keyframes driftToCenter {
-                0% { transform: translate(-50%, -50%) translateY(0); }
-                100% { transform: translate(-50%, -50%) translateY(-2rem); }
-            }
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-</head>
-<body>
-   
-    <div class="hint">Chạm để mở</div>
-    <div class="container">
-        <div class="envelope-container" id="envelope">
-            <svg class="envelope" viewBox="0 0 180 120">
-                <polygon class="whole-envelope" points="10,30 170,30 170,110 10,110" fill="#ffffff" stroke="#1e293b" stroke-width="4"/>
-            </svg>
-        </div>
-        <div class="note" id="note">Happy Birthday</div>
-    </div>
-    <svg class="tear-piece tear-left" viewBox="0 0 180 120">
-        <path d="M10,30 L85,30 L90,40 Q87,45 90,50 Q87,55 90,60 Q87,65 90,70 Q87,75 90,80 Q87,85 90,90 L85,110 L10,110 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4"/>
-    </svg>
-    <svg class="tear-piece tear-right" viewBox="0 0 180 120">
-        <path d="M170,30 L95,30 L90,40 Q93,45 90,50 Q93,55 90,60 Q93,65 90,70 Q93,75 90,80 Q93,85 90,90 L95,110 L170,110 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4"/>
-    </svg>
-    
-    <div class="cake" id="cake">Dung ++</div>
-    <div class="life-time" id="lifeTimeContainer">Cuộc đời:<br><span id="lifeTime"></span></div>
-
-    <script>
-        const envelope = document.getElementById("envelope");
-        const note = document.getElementById("note");
-        const lifeTimeContainer = document.getElementById("lifeTimeContainer");
-        let isOpen = false;
-        let isDark = false;
-        let confettiInterval = null;
-        const birthdaySong = new Audio("hp.mp3");
-        birthdaySong.loop = true;
-
-        envelope.addEventListener("click", handleInteraction);
-        envelope.addEventListener("touchstart", handleInteraction, { passive: false });
-
-        function handleInteraction(e) {
-            e.preventDefault();
-            if (!isOpen) {
-                isOpen = true;
-                document.body.classList.add("open");
-                envelope.style.animation = "none";
-                document.querySelector(".hint").style.display = "none";
-            }
-        }
-
-        note.addEventListener("click", toggleNote);
-        note.addEventListener("touchstart", toggleNote, { passive: false });
-
-        let isTyping = false;
-
-        function toggleNote(e) {
-            e.preventDefault();
-            note.classList.toggle("zoomed");
-            isDark = !isDark;
-            document.body.style.backgroundColor = isDark ? "#333333" : "#f3f3f3";
-
-            const cake = document.getElementById("cake");
-
-            if (note.classList.contains("zoomed")) {
-                birthdaySong.play();
-                lifeTimeContainer.classList.add("visible");  
-                if (!isTyping) {
-                    isTyping = true;
-                    note.innerHTML = '<span></span>';
-                    const textSpan = note.querySelector("span");
-                    let text = "Chúc Em Tuổi Mới Học giỏi nhé.Vui Vẻ-Mạnh Khỏe-Thành Đạt";
-                    let i = 0;
-
-                    cake.classList.add("visible");
-
-                    confettiInterval = setInterval(() => {
-                        for (let j = 0; j < 8; j++) {
-                            let confetti = document.createElement("div");
-                            confetti.className = "confetti";
-                            confetti.style.left = `${Math.random() * 100}vw`;
-                            confetti.style.background = `hsl(${Math.random() * 360}, 80%, 50%)`;
-                            confetti.style.animationDelay = `${Math.random() * 1}s`;
-                            document.body.appendChild(confetti);
-                            setTimeout(() => confetti.remove(), 3000);
-                        }
-                    }, 500);
-
-                    function typeWriter() {
-                        if (i < text.length) {
-                            textSpan.innerHTML += text.charAt(i);
-                            i++;
-                            setTimeout(typeWriter, 100);
-                        } else {
-                            isTyping = false;
-                        }
-                    }
-                    typeWriter();
-                }
-            } else {
-                birthdaySong.pause();
-                birthdaySong.currentTime = 0;
-                note.innerHTML = "Happy Birthday";
-                cake.classList.remove("visible");
-                lifeTimeContainer.classList.remove("visible"); 
-                clearInterval(confettiInterval);
-                isTyping = false;
-            }
-        }
-
-        function makeDraggable(element) {
-            let startX, startY, initialX, initialY;
-            element.style.position = "absolute";
-
-            if (!element.style.left || !element.style.top) {
-                const rect = element.getBoundingClientRect();
-                element.style.left = rect.left + "px";
-                element.style.top = rect.top + "px";
-            }
-
-            element.addEventListener("mousedown", dragStart);
-            element.addEventListener("touchstart", dragStart, { passive: false });
-
-            function dragStart(e) {
-                e.preventDefault();
-                if (e.type === "touchstart") {
-                    startX = e.touches[0].clientX;
-                    startY = e.touches[0].clientY;
-                } else {
-                    startX = e.clientX;
-                    startY = e.clientY;
-                }
-                initialX = parseFloat(element.style.left) || 0;
-                initialY = parseFloat(element.style.top) || 0;
-
-                document.addEventListener("mousemove", dragMove);
-                document.addEventListener("touchmove", dragMove, { passive: false });
-                document.addEventListener("mouseup", dragEnd);
-                document.addEventListener("touchend", dragEnd);
-            }
-
-            function dragMove(e) {
-                e.preventDefault();
-                let moveX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-                let moveY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-                let diffX = moveX - startX;
-                let diffY = moveY - startY;
-                let newX = initialX + diffX;
-                let newY = initialY + diffY;
-
-                element.style.left = newX + "px";
-                element.style.top = newY + "px";
-            }
-
-            function dragEnd() {
-                document.removeEventListener("mousemove", dragMove);
-                document.removeEventListener("touchmove", dragMove);
-                document.removeEventListener("mouseup", dragEnd);
-                document.removeEventListener("touchend", dragEnd);
-            }
-        }
-
-        makeDraggable(envelope);
-
-        
-        function updateLifeTime() {
-    let birthDate = new Date('2006-03-25T03:25:00Z'); 
-    let now = new Date();
-    
-    // Tính tổng số mili-giây đã trôi qua
-    let diff = now - birthDate;
-    
-    // Tính giây, phút, giờ đã trôi qua
-    let seconds = Math.floor(diff / 1000);
-    let minutes = Math.floor(diff / (1000 * 60));
-    let hours = Math.floor(diff / (1000 * 60 * 60));
-    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    
-    // Tính năm, tháng, ngày chính xác hơn
-    let birthYear = birthDate.getFullYear();
-    let birthMonth = birthDate.getMonth();
-    let birthDay = birthDate.getDate();
-    
-    let nowYear = now.getFullYear();
-    let nowMonth = now.getMonth();
-    let nowDay = now.getDate();
-    
-    let years = nowYear - birthYear;
-    let months = nowMonth - birthMonth;
-    let daysDiff = nowDay - birthDay;
-
-    if (daysDiff < 0) {
-        months -= 1;
-        let previousMonth = new Date(nowYear, nowMonth, 0);
-        daysDiff += previousMonth.getDate();
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>:></title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      
+      background: linear-gradient(to right, #212121, #cfdef3);
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+      color: #333333;
     }
 
-    if (months < 0) {
-        years -= 1;
-        months += 12;
-    }
-
-    document.getElementById('lifeTime').innerHTML = `
-        ${years} tuổi - 
-        ${months} tháng - 
-        ${daysDiff} ngày<br>
-        ${hours} giờ - 
-        ${minutes} phút<br>--
-        ${seconds} giây--
-    `;
+    h1 {
+  text-align: center;
+  font-size: 48px;
+  background: linear-gradient(to right, #e9f2ff, #98a8af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 30px;
 }
 
-// Gọi hàm mỗi giây để cập nhật liên tục
-setInterval(updateLifeTime, 1000);
-        updateLifeTime();  
-    </script>
+
+    label {
+      color:#f9f7de;
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+    }
+
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+      background-color: #333;
+      color: #ffffff;
+    }
+  @keyframes ani{
+    20%{background-color :#4F46E5;
+    color: #cfdef3;}
+    40%{background-color:#F97316;
+    color: #fbfbfb;}
+    60%{background-color:#14B8A6;
+    color: #E0F2FE;}
+    80%{background-color: #FDE68A;
+      color: #92400E;}
+  }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      background-color: #334155;
+      color: #E2E8F0;
+      margin-top: 20px;
+      margin-right: 10px;
+      transition: background-color 0.3s ease;
+      animation: ani 90s infinite linear;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .result {
+      background: #4f4f4f;
+      color: #cfdef3;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid #ddd;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Giải mã arcfour</h1>
+
+  <label>Tải lên file:</label>
+  <input type="file" id="fileInput">
+
+  <label>dán:</label>
+  <textarea id="hexInput" rows="5" placeholder="maybe: AnDepTraiSieuCapVoDichVuTru..."></textarea>
+
+  <button onclick="decryptInput()">Triển</button>
+  <button onclick="downloadResult()">Tải xuống</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    const defaultKey = "Lyr1cjust4nct";
+    let lastDecoded = "";
+
+    function rc4(key, data) {
+      let s = [], j = 0, x, res = [];
+      for (let i = 0; i < 256; i++) s[i] = i;
+      for (let i = 0; i < 256; i++) {
+        j = (j + s[i] + key.charCodeAt(i % key.length)) % 256;
+        [s[i], s[j]] = [s[j], s[i]];
+      }
+
+      i = j = 0;
+      for (let y = 0; y < data.length; y++) {
+        i = (i + 1) % 256;
+        j = (j + s[i]) % 256;
+        [s[i], s[j]] = [s[j], s[i]];
+        x = s[(s[i] + s[j]) % 256];
+        res.push(data[y] ^ x);
+      }
+      return res;
+    }
+
+    function hexToBytes(hex) {
+      const bytes = [];
+      for (let c = 0; c < hex.length; c += 2) {
+        bytes.push(parseInt(hex.substr(c, 2), 16));
+      }
+      return bytes;
+    }
+
+    function decryptInput() {
+      const fileInput = document.getElementById("fileInput");
+      const hexInput = document.getElementById("hexInput").value.trim().replace(/\s+/g, '');
+
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const hexStr = e.target.result.replace(/\s+/g, '').trim();
+          handleHexDecrypt(hexStr);
+        };
+        reader.readAsText(file);
+      } else if (hexInput.length > 0) {
+        handleHexDecrypt(hexInput);
+      }
+    }
+
+    function handleHexDecrypt(hexStr) {
+      if (!hexStr || hexStr.length % 2 !== 0) {
+        document.getElementById("output").innerText = "????";
+        return;
+      }
+
+      const data = hexToBytes(hexStr);
+      const resultBytes = rc4(defaultKey, data);
+      const decoded = new TextDecoder().decode(new Uint8Array(resultBytes));
+
+      lastDecoded = decoded;
+      document.getElementById("output").innerText =decoded;
+    }
+
+    function downloadResult() {
+      if (!lastDecoded) {
+        alert("muốn tải cái gì?");
+        return;
+      }
+
+      const blob = new Blob([lastDecoded], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "lyrics.txt";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
 </body>
 </html>
+
